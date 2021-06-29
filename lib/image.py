@@ -5,7 +5,7 @@ def initImage():
     return image
 
 # use a bitmap font
-def drawText(image, font = "../fonts/5x8.pil", color = (255, 255, 255), text = "hello", filename = "test.png", offset = (0, 0)):
+def drawText(image, font = "../5x8.pil", color = (255, 255, 255), text = "hello", offset = (0, 0)):
     draw = ImageDraw.Draw(image)
     font = ImageFont.load(font)
     draw.text(offset, text, font = font, fill = color)
