@@ -1,23 +1,16 @@
-# get stock info
-current_price = 42.42
-start_price = 39.26
-high_price = 44.12
-low_price = 38.13
+from datetime import date
+import lib.image as image
+import lib.stock as stock
 
+card = image.initImage()
+image.drawText(card, font = "fonts/5x8.pil", color = (200, 200, 200), text = 'WDAY' , offset = (1, 1));
 
-row_value = calculate_row_value(low_price, high_price)
-print (row_value)
+image.drawText(card, font = "fonts/5x8.pil", color = (200, 200, 200), text = '238', offset = (1, 8));
+image.drawText(card, font = "fonts/5x8.pil", color = (200, 200, 200), text = '74', offset = (18, 8));
 
+image.drawText(card, font = "fonts/5x8.pil", color = (200, 0, 0), text = '7', offset = (43, 1));
+image.drawText(card, font = "fonts/5x8.pil", color = (200, 0, 0), text = '65', offset = (50, 1));
 
-def calculate_row_value(low_price, high_price):
-    total_range = high_price - low_price
-    row_value = total_range / 32
-    return row_value
-
-def draw_midline():
-    if (start_price == low_price):
-        midline = False
-    else:
-        midline = True
-    if (midline):
-        # draw a dotted line from whereever the start_price dot is
+image.drawText(card, font = "fonts/5x8.pil", color = (200, 0, 0), text = '3', offset = (43, 8));
+image.drawText(card, font = "fonts/5x8.pil", color = (200, 0, 0), text = '10%', offset = (49, 8));
+card.save('cards/stock.png')
