@@ -2,8 +2,11 @@ from datetime import date
 import lib.image as image
 import lib.constant as constant
 import lib.stock as stock
+#import pandas as pd
+import math
 
 stock_info = stock.get_stock_info('WDAY')
+#stock_info = {'symbol': 'WDAY', 'previous_close': 246.51, 'current_price': 238.74, 'day_diff': -7.65, 'max': 245.12, 'min': 238.56, 'increment': 0.41, 'total_rows': 32, 'percent': -3.1, 'data': pd.DataFrame(data=[246.610001, 244.979996, 243.865005, 243.460007, 242.800003, 242.520004, 242.130005, 241.955002, 241.789993, 241.770004, 241.479996, 240.759995, 239.119995, 239.729996, 240.570007, 240.929993, 239.244995, 238.889999, 238.820007, 238.559998, 238.740005, 246.610001, 244.979996, 243.865005, 243.460007, 242.800003, 242.520004, 242.130005, 241.955002, 241.789993, 241.770004, 241.479996])}
 
 def draw_right_string(image, card, string, offset_y, percent=False):
     font_width = 5
@@ -43,6 +46,28 @@ draw_right_string(image, card, stock_info['day_diff'], 1)
 # percent diff
 draw_right_string(image, card, stock_info['percent'], 8, percent=True)
 
+# graph
+index = stock_info['total_rows'] / constant.PIXEL_COLS
+for x in range(constant.PIXEL_COLS):
+    first_pixel = False
+    current_index = math.floor((x + 1) * index)
+    if (current_index >= stock_info['total_rows']):
+        current_index -= 1
+    time_price = round(stock_info['data'][4][current_index], 2)
+    if (time_price >= stock_info['previous_close']):
+        first_time_color = (0, 255, 0)
+        time_color = (0, 175, 0)
+    else:
+        first_time_color = (255, 0, 0)
+        time_color = (175, 0, 0)
+    for y in range(16):
+        current_offset = (x, y+16)
+        current_pixel_price = stock_info['max'] - y * stock_info['increment']
+        if (time_price >= current_pixel_price):
+            if (first_pixel == False):
+                card.putpixel(current_offset, first_time_color)
+                first_pixel = True
+            else:
+                card.putpixel(current_offset, time_color)
 
-
-card.save('cards/stock.png')
+card.save('cards/stock_' + stock_info['symbol'] + '.png')

@@ -24,6 +24,6 @@ def get_stock_info(symbol):
     rows = len(new_df.index)
     day_diff = round(market_price - previous_close_price, 2)
     percent = round((day_diff) / previous_close_price * 100, 2)
-    info = {'symbol': symbol, 'current_price': market_price, 'day_diff': day_diff, 'max': max_value, 'min': min_value, 'increment': increment, 'total_rows': rows, 'percent': percent, data: new_df}
+    info = {'symbol': symbol, 'previous_close': previous_close_price, 'current_price': market_price, 'day_diff': day_diff, 'max': max_value, 'min': min_value, 'increment': increment, 'total_rows': rows, 'percent': percent, 'data': new_df}
     return info
 
