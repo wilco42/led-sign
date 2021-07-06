@@ -6,7 +6,6 @@ import lib.stock as stock
 import math
 
 stock_info = stock.get_stock_info('WDAY')
-#stock_info = {'symbol': 'WDAY', 'previous_close': 246.51, 'current_price': 238.74, 'day_diff': -7.65, 'max': 245.12, 'min': 238.56, 'increment': 0.41, 'total_rows': 32, 'percent': -3.1, 'data': pd.DataFrame(data=[246.610001, 244.979996, 243.865005, 243.460007, 242.800003, 242.520004, 242.130005, 241.955002, 241.789993, 241.770004, 241.479996, 240.759995, 239.119995, 239.729996, 240.570007, 240.929993, 239.244995, 238.889999, 238.820007, 238.559998, 238.740005, 246.610001, 244.979996, 243.865005, 243.460007, 242.800003, 242.520004, 242.130005, 241.955002, 241.789993, 241.770004, 241.479996])}
 
 def draw_right_string(image, card, string, offset_y, percent=False):
     font_width = 5
