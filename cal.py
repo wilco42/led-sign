@@ -6,6 +6,8 @@ from datetime import date, datetime, timedelta
 from dateutil import parser
 import pytz
 import json
+import lib.image as image
+import bitmaps.weather_images as bitmap
 
 # local test
 result = Path('wilco.ics').read_text()
@@ -43,4 +45,12 @@ for event in event_list:
 if is_next_event:
     print (next_event['summary'], next_event['time'])
 else:
-    print ('no upcoming events')
+    next_event = {'summary': 'no upcoming events', 'time': ''}
+
+cal = image.initImage()
+image.drawText(cal, font = "fonts/7x13.pil", color = (255, 255, 255), text = todate.strftime('%b %d'), offset = (20, 3));
+image.drawText(cal, font = "fonts/6x10.pil", color = (255, 255, 150), text = next_event['summary'], offset = (2, 20));
+image.drawBitmap(cal, bitmap.calendar_pins, (200, 200, 200))
+image.drawBitmap(cal, bitmap.calendar_header, (255, 0, 0))
+image.drawBitmap(cal, bitmap.calendar_background, (200, 200, 200))
+cal.save('cards/calendar.png')
