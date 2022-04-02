@@ -22,8 +22,16 @@ else:
     colon_offset = time_offset + constant.CHARACTER_WIDTH * 2
     ampm_offset = time_offset + constant.CHARACTER_WIDTH * time_length + 3
 
+# do the math to center the date
+day_length = len(day)
+
+if (day_length == 10):
+    day_offset = round((constant.PIXEL_COLS - constant.SMALL_CHARACTER_WIDTH * (day_length) ) / 2) + 1
+else:
+    day_offset = round((constant.PIXEL_COLS - constant.SMALL_CHARACTER_WIDTH * (day_length) ) / 2)
+
 clock = image.initImage()
-image.drawText(clock, font = "fonts/5x8.pil", color = (50, 50, 255), text = day, offset = (7, 19));
+image.drawText(clock, font = "fonts/5x8.pil", color = (50, 50, 255), text = day, offset = (day_offset, 19));
 image.drawText(clock, font = "fonts/7x13.pil", color = (200, 200, 200), text = time, offset = (time_offset, 4));
 image.drawText(clock, font = "fonts/7x13.pil", color = (200, 200, 200), text = ampm, offset = (ampm_offset, 4));
 image.drawText(clock, font = "fonts/7x13.pil", color = (200, 200, 200), text = ':', offset = (colon_offset, 3));
