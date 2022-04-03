@@ -2,10 +2,7 @@ from datetime import date
 import lib.image as image
 import lib.constant as constant
 import lib.stock as stock
-#import pandas as pd
 import math
-
-stock_info = stock.get_stock_info('WDAY')
 
 def draw_right_string(image, card, string, offset_y, percent=False):
     font_width = 5
@@ -29,8 +26,9 @@ def draw_right_string(image, card, string, offset_y, percent=False):
     card.putpixel((constant.PIXEL_COLS - dot_offset, offset_y + font_width + 1), string_color)
     image.drawText(card, font = "fonts/5x8.pil", color = string_color, text = new_string_components[1], offset = (new_string_x + (font_width + 1) * (new_string_length - cents_offset), offset_y));
 
+
 card = image.initImage()
-# ticker
+stock_info = stock.get_stock_info('WDAY')
 image.drawText(card, font = "fonts/5x8.pil", color = (200, 200, 200), text = stock_info['symbol'] , offset = (1, 1));
 
 # current price
