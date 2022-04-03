@@ -19,7 +19,7 @@ options.cols = 64
 options.chain_length = 1
 options.parallel = 1
 # with pwm slowdown to 4 seems to work well for RPi0
-options.gpio_slowdown = 4
+options.gpio_slowdown = 5
 options.hardware_mapping = 'adafruit-hat'  # If you have an Adafruit HAT: 'adafruit-hat'
 #options.hardware_mapping = 'adafruit-hat-pwm'  # If you have an Adafruit HAT: 'adafruit-hat'
 

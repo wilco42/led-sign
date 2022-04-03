@@ -27,8 +27,9 @@ def draw_right_string(image, card, string, offset_y, percent=False):
     image.drawText(card, font = "fonts/5x8.pil", color = string_color, text = new_string_components[1], offset = (new_string_x + (font_width + 1) * (new_string_length - cents_offset), offset_y));
 
 def make_card(ticker):
-    card = image.initImage()
+    print("in make_card: ", ticker)
     stock_info = stock.get_stock_info(ticker)
+    card = image.initImage()
     image.drawText(card, font = "fonts/5x8.pil", color = (200, 200, 200), text = stock_info['symbol'] , offset = (1, 1));
 
     # current price
@@ -69,7 +70,6 @@ def make_card(ticker):
 
     card.save('cards/stock_' + stock_info['symbol'] + '.png')
 
-stocks = ['WDAY', 'AAPL', 'EBAY', 'PYPL']
-for stock in stocks:
-    print(stock)
-    make_card(stock)
+stocks = ["WDAY", "AAPL", "EBAY", "PYPL"]
+for ticker in stocks:
+    make_card(ticker)

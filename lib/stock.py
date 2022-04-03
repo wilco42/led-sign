@@ -12,11 +12,13 @@ def get_stock_info(symbol):
     day_low = ticker.info['dayLow']
 
     history = ticker.history(period="1d", interval="5m")
-    colspecs = [(0,25), (27, 37), (39, 49), (51, 61), (63, 73), (76, 81), (91, 92), (105, 106)]
+#    colspecs = [(0,25), (27, 37), (39, 49), (51, 61), (63, 73), (76, 81), (91, 92), (105, 106)]
+    colspecs = [(0,25), (27, 37), (39, 49), (51, 61), (63, 70), (76, 81), (91, 92), (105, 106)]
     processed_string = history.to_string().split("\n", 2)[2]
     data = io.StringIO(processed_string)
     df = pd.read_fwf(data, colspecs=colspecs, header=None)
     new_df = df.drop(columns=[0, 1, 2, 3, 5, 6, 7])
+    print(new_df[4].max(), 2)
     max_value = round(new_df[4].max(), 2)
     min_value = round(new_df[4].min(), 2)
     diff = round(max_value - min_value, 2)

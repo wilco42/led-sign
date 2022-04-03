@@ -24,7 +24,6 @@ options.hardware_mapping = 'adafruit-hat'  # If you have an Adafruit HAT: 'adafr
 matrix = RGBMatrix(options = options)
 
 try:
-    print("Press CTRL-C to stop.")
     while True:
         cards = get_cards()
         for card in cards:
