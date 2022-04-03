@@ -26,45 +26,50 @@ def draw_right_string(image, card, string, offset_y, percent=False):
     card.putpixel((constant.PIXEL_COLS - dot_offset, offset_y + font_width + 1), string_color)
     image.drawText(card, font = "fonts/5x8.pil", color = string_color, text = new_string_components[1], offset = (new_string_x + (font_width + 1) * (new_string_length - cents_offset), offset_y));
 
+def make_card(ticker):
+    card = image.initImage()
+    stock_info = stock.get_stock_info(ticker)
+    image.drawText(card, font = "fonts/5x8.pil", color = (200, 200, 200), text = stock_info['symbol'] , offset = (1, 1));
 
-card = image.initImage()
-stock_info = stock.get_stock_info('WDAY')
-image.drawText(card, font = "fonts/5x8.pil", color = (200, 200, 200), text = stock_info['symbol'] , offset = (1, 1));
+    # current price
+    current = str(stock_info['current_price']).split(".")
+    image.drawText(card, font = "fonts/5x8.pil", color = (200, 200, 200), text = current[0], offset = (1, 8));
+    card.putpixel((16, 14), (200, 200, 200))
+    image.drawText(card, font = "fonts/5x8.pil", color = (200, 200, 200), text = current[1], offset = (18, 8));
 
-# current price
-current = str(stock_info['current_price']).split(".")
-image.drawText(card, font = "fonts/5x8.pil", color = (200, 200, 200), text = current[0], offset = (1, 8));
-card.putpixel((16, 14), (200, 200, 200))
-image.drawText(card, font = "fonts/5x8.pil", color = (200, 200, 200), text = current[1], offset = (18, 8));
+    # day's diff
+    draw_right_string(image, card, stock_info['day_diff'], 1)
 
-# day's diff
-draw_right_string(image, card, stock_info['day_diff'], 1)
+    # percent diff
+    draw_right_string(image, card, stock_info['percent'], 8, percent=True)
 
-# percent diff
-draw_right_string(image, card, stock_info['percent'], 8, percent=True)
+    # graph
+    index = stock_info['total_rows'] / constant.PIXEL_COLS
+    for x in range(constant.PIXEL_COLS):
+        first_pixel = False
+        current_index = math.floor((x + 1) * index)
+        if (current_index >= stock_info['total_rows']):
+            current_index -= 1
+        time_price = round(stock_info['data'][4][current_index], 2)
+        if (time_price >= stock_info['previous_close']):
+            first_time_color = (0, 255, 0)
+            time_color = (0, 175, 0)
+        else:
+            first_time_color = (255, 0, 0)
+            time_color = (175, 0, 0)
+        for y in range(16):
+            current_offset = (x, y+16)
+            current_pixel_price = stock_info['max'] - y * stock_info['increment']
+            if (time_price >= current_pixel_price):
+                if (first_pixel == False):
+                    card.putpixel(current_offset, first_time_color)
+                    first_pixel = True
+                else:
+                    card.putpixel(current_offset, time_color)
 
-# graph
-index = stock_info['total_rows'] / constant.PIXEL_COLS
-for x in range(constant.PIXEL_COLS):
-    first_pixel = False
-    current_index = math.floor((x + 1) * index)
-    if (current_index >= stock_info['total_rows']):
-        current_index -= 1
-    time_price = round(stock_info['data'][4][current_index], 2)
-    if (time_price >= stock_info['previous_close']):
-        first_time_color = (0, 255, 0)
-        time_color = (0, 175, 0)
-    else:
-        first_time_color = (255, 0, 0)
-        time_color = (175, 0, 0)
-    for y in range(16):
-        current_offset = (x, y+16)
-        current_pixel_price = stock_info['max'] - y * stock_info['increment']
-        if (time_price >= current_pixel_price):
-            if (first_pixel == False):
-                card.putpixel(current_offset, first_time_color)
-                first_pixel = True
-            else:
-                card.putpixel(current_offset, time_color)
+    card.save('cards/stock_' + stock_info['symbol'] + '.png')
 
-card.save('cards/stock_' + stock_info['symbol'] + '.png')
+stocks = ['WDAY', 'AAPL', 'EBAY', 'PYPL']
+for stock in stocks:
+    print(stock)
+    make_card(stock)
